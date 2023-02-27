@@ -17,6 +17,7 @@ const Posts = () => {
         setItems(prevItems => [...prevItems, ...data]);
       } catch (error) {
         setError(error.message);
+        console.log(error);
       } finally {
         setLoading(false);
       }

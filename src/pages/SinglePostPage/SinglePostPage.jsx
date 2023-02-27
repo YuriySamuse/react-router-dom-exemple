@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useParams,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 
 import { getPostById } from 'shared/servises/post-api';
 
@@ -8,6 +14,9 @@ const SinglePostPage = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const some = location.state?.from || '/';
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -21,14 +30,18 @@ const SinglePostPage = () => {
     fetchPost();
   }, []);
 
-  const goBack = useCallback(() => navigate(-1), [navigate]);
+  // console.log('SinglrPostPage', some);
+
+  const goBack = useCallback(() => navigate(some), [navigate]);
 
   return (
     <>
       <button onClick={goBack}>Go back</button>
       <h1>{post?.title}</h1>
       <p>{post?.body}</p>
-      <Link to="comments">Comments</Link>
+      <Link to="comments" state={{ some }}>
+        Comments
+      </Link>
       <Outlet />
     </>
   );

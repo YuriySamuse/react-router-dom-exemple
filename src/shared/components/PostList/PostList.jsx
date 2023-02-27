@@ -1,11 +1,18 @@
 import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import styles from './post-list.module.scss';
 
-const PostsSearchList = ({ items }) => {
+const PostList = ({ items }) => {
+  const location = useLocation();
+
   const elements = items.map(({ id, title, body }) => (
-    <Link className={styles.link} key={id} to={`/posts/${id}`}>
+    <Link
+      className={styles.link}
+      key={id}
+      to={`/posts/${id}`}
+      state={{ some: location }}
+    >
       <li className={styles.item}>
         <h4>{title}</h4>
         <p>{body}</p>
@@ -16,8 +23,8 @@ const PostsSearchList = ({ items }) => {
   return <ul className={styles.list}>{elements}</ul>;
 };
 
-export default memo(PostsSearchList);
+export default memo(PostList);
 
-PostsSearchList.defaultProps = {
+PostList.defaultProps = {
   items: [],
 };
